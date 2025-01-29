@@ -50,6 +50,27 @@ ggplot(df, aes(x=X,y=Y, colour = as.factor(cluster)))+geom_point()+
   geom_point(data=centroids, aes(x=X,y=Y, size=4,shape = as.factor(cluster)))
 
 
+#THIRD RUN
+#re-assign the observations based on distance
+for (i in (1:nrow(df))) {
+  # vector to collect the distances for the point to the respective cluster
+  colv=vector()
+  for (j in (1:k)) {
+    mdist=sqrt(((centroids[[j,2]]-df[[i,1]])^2)+((centroids[[j,3]]-df[[i,2]])^2))
+    colv[j]=mdist
+  }
+  newcluster=which.min(colv)
+  df[i,'cluster']=newcluster
+}
+
+centroids=df %>% group_by(cluster) %>% summarise(X=mean(X),
+                                                 Y=mean(Y))
+
+ggplot(df, aes(x=X,y=Y, colour = as.factor(cluster)))+geom_point()+
+  geom_point(data=centroids, aes(x=X,y=Y, size=4,shape = as.factor(cluster)))
+
+
+
 
 
 
