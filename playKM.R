@@ -16,6 +16,14 @@ df$cluster=round(runif(20,min=1,max = 3),0)
 
 ggplot(df, aes(x=X,y=Y, colour = as.factor(cluster)))+geom_point()
 
+#2. Find centroids
+# find means of the observation in each cluster
+centroids=df %>% group_by(cluster) %>% summarise(mx=mean(X),
+                                                 my=mean(Y))
+ggplot(df, aes(x=X,y=Y, colour = as.factor(cluster)))+geom_point()+
+  geom_point(data=centroids, aes(x=mx,y=my, size=4,shape = as.factor(cluster)))
+
+
 
 
 
