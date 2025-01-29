@@ -29,7 +29,6 @@ ggplot(df, aes(x=X,y=Y, colour = as.factor(cluster)))+geom_point()+
 # sqrt((cx-obsx)^2 + (cy-obsy)^2)
 
 for (i in (1:nrow(df))) {
-  i=1
   # vector to collect the distances for the point to the respective cluster
   colv=vector()
   for (j in (1:k)) {
@@ -39,10 +38,16 @@ for (i in (1:nrow(df))) {
   newcluster=which.min(colv)
   df[i,'cluster']=newcluster
 }
+ggplot(df, aes(x=X,y=Y, colour = as.factor(cluster)))+geom_point()+
+  geom_point(data=centroids, aes(x=X,y=Y, size=4,shape = as.factor(cluster)))
 
+#SECOND RUN
+# recompute the centroids
+centroids=df %>% group_by(cluster) %>% summarise(X=mean(X),
+                                                 Y=mean(Y))
 
-
-
+ggplot(df, aes(x=X,y=Y, colour = as.factor(cluster)))+geom_point()+
+  geom_point(data=centroids, aes(x=X,y=Y, size=4,shape = as.factor(cluster)))
 
 
 
