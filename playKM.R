@@ -69,6 +69,24 @@ centroids=df %>% group_by(cluster) %>% summarise(X=mean(X),
 ggplot(df, aes(x=X,y=Y, colour = as.factor(cluster)))+geom_point()+
   geom_point(data=centroids, aes(x=X,y=Y, size=4,shape = as.factor(cluster)))
 
+#FOURTH RUN?
+#Iterate until the cluster assignments stop changing
+#How to detect changes while re-assigning the observations based on distance?
+
+changecounter=0
+for (i in (1:nrow(df))) {
+  # vector to collect the distances for the point to the respective cluster
+  colv=vector()
+  for (j in (1:k)) {
+    mdist=sqrt(((centroids[[j,2]]-df[[i,1]])^2)+((centroids[[j,3]]-df[[i,2]])^2))
+    colv[j]=mdist
+  }
+  newcluster=which.min(colv)
+  if(df[i,'cluster']!=newcluster) {
+    df[i,'cluster']=newcluster
+    changecounter=changecounter+1
+  }
+}
 
 
 
