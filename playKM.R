@@ -1,6 +1,7 @@
 # get two observations
 
 df=read.csv("Clustered_Data.csv")
+df=read.csv("bmi.csv")
 
 plot(df)
 #1. Randomly assign a number, from 1 to K, to each of the observations.
