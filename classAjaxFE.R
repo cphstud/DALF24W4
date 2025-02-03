@@ -46,6 +46,7 @@ ajaxEvents=resdf %>% filter(team.name=="Ajax")
 ajaxEventsPasses=ajaxEvents %>% filter(type.primary=="pass")
 # remove columns
 av=colnames(ajaxEventsPasses)
+av
 avsub=av[1:30]
 avsub2=avsub[-c(3:9)]
 ajaxEventsPassesSub=ajaxEventsPasses[,avsub2]
@@ -53,6 +54,8 @@ ajaxEventsPassesSub$cat=unlist(lapply(allPassesAjax$type.secondary, function(x) 
 
 
 # find relevant pass-types
+ddf=as.data.frame(table(ajaxEventsPassesSub$cat)) 
+ddf=ddf %>% filter(Freq>30)
 nv=unique(as.character(ddf$Var1))
 
 pstat=ajaxEventsPassesSub %>% group_by(matchId, cat) %>% select(matchId,cat) %>% 
